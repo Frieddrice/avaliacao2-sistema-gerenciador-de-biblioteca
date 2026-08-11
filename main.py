@@ -2,6 +2,7 @@ import definicoes as d
 d.limpa()
 d.cabecalho() #Cabeçalho e sistema de limpeza do programa
 import sys
+import csv
 
 livros = []
 
@@ -74,7 +75,36 @@ def emprestimo():
         if deseja_continuar() == True:
             break
 
+def devolucao():
+    while True:
+        op_validas = ["1" , "2"]
+        print("\nFAÇA A SUA DEVOLUÇÃO AQUI!\n")
+        titulo = input("Digite aqui o título do livro que deseja devolver: ")
+        encontrado = False
+        for livro in livros:
+            if livro['título'].lower () == titulo.lower():
+                encontrado = True
+                print(f"\nLivro encontrado: {livro['título']}")
+                print(f"Status atual: {livro['status']}")
+                if livro['status'] == "emprestado":
+                    while True:
+                        opcao = input("Você deseja realizar a devolução?\n1. Sim\n2. Não\nDigite: ")
+                        if opcao not in op_validas:
+                            print("Opção inválida. Tente novamente!")
+                            continue
+                        if opcao == "1":
+                            livro['status'] = "disponível"
+                            print(f"\nTítulo {livro['título']}\nDevolução realizada com sucesso!\n")
+                        elif opcao == "2":
+                            print("Devolução cancelada!")
+                        break
+                else:
+                    print("Este livro já está disponível na biblioteca!")
+        if not encontrado:
+            print("Livro não encontrado. Tente novamente!")
 
+        if deseja_continuar() == True:
+            break
 
 def menu_principal(): #menu principal
     while True: #sistema de loop
@@ -95,6 +125,7 @@ def menu_principal(): #menu principal
             emprestimo()
         elif op == "3":
             print("\nCarregando a função de devolução...\n")
+            devolucao()
         elif op == "4":
             print("Carregando a listagem de todos os livros...\n")
         elif op == "5":
