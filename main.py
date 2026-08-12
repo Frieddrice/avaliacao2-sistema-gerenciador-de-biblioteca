@@ -43,12 +43,31 @@ def deseja_continuar():
 
 def cadastro():#Função cadastro
     print("\nFAÇA O CADASTRO AQUI!\n")
-    titulo = str(input("Título do livro: "))
-    autor = str(input ("Autor: "))
-    ano = int(input("Ano de publicação: "))
-    isbn = input("Código ISBN: ")
-    status = "disponível"
-    print(status)
+    while True:
+        titulo = input("Título do livro: ").strip() #serve para limpar os spaços nas extremidades
+        if titulo:
+            break
+        print("Erro! O título não pode estar com o campo vazio. Tente novamente!")
+    while True:
+        autor = input ("Autor: ").strip()
+        if autor:
+            break
+        print("Erro! O nome do autor não pode estar com o campo vazio. Tente novamente!")
+    while True:
+        ano_str = input("Ano de publicação: ").strip()
+        if ano_str.isdigit():
+            ano = int(ano_str)
+            if ano <=2026:
+                break
+            else:
+                print("Ano inválido. Tente novamente!")
+        else:
+            print("Erro! O ano deve conter apenas números! tente novamente")
+    while True:
+        isbn = input("Código ISBN: ").strip()
+        if isbn.isdigit() and len(isbn) == 13:
+            break
+        print("Erro! O ISBN deve conter 13 dígitos (apenas números)!")
 
     livro = { #Dicionário
         "título": titulo,
@@ -64,12 +83,14 @@ def cadastro():#Função cadastro
 def emprestimo():
     while True:
         print("\nREGISTRE O SEU EMPRÉSTIMO AQUI!\n")
-        print("Visualizar status dos livros:")
-        titulo = input("Digite aqui o nome do livro que deseja encontrar: ")
+        titulo = input("Digite aqui o nome do livro que deseja encontrar: ").strip()
+        if not titulo:
+            print("O campo de busca não pode ficar vazio! Tente novamente.")
+            continue
         encontrado = False
 
         for livro in livros:
-            if livro ['título'].lower() == titulo.lower():
+            if titulo.lower() in livro['título'].lower():
                 encontrado = True
                 print(f"Livro encontrado!\n\nTítulo: {livro['título']}")
                 print(f"Status atual: {livro['status']} ")
@@ -82,6 +103,7 @@ def emprestimo():
                             continue
                         if opcao == "1":
                             livro ['status'] = "emprestado"
+                            salvar_em_arquivo()
                             print("\nEmpréstimo realizado com sucesso!\n")
                         elif opcao == "2":
                             print("Ok. Caso deseje realizar depois, volte aqui mais tarde!\n")
@@ -89,7 +111,7 @@ def emprestimo():
                 else:
                     print("Este livro já está emprestado!")
                 break
-        if encontrado == False:
+        if not encontrado:
                         print("\nLivro não encontrado. Tente novamente!\n")
         if deseja_continuar() == True:
             break
@@ -98,10 +120,13 @@ def devolucao():
     while True:
         op_validas = ["1" , "2"]
         print("\nFAÇA A SUA DEVOLUÇÃO AQUI!\n")
-        titulo = input("Digite aqui o título do livro que deseja devolver: ")
+        titulo = input("Digite aqui o título do livro que deseja devolver: ").strip()
+        if not titulo:
+            print("O campo de busca não pode ficar vazio! Tente novamente.")
+            continue
         encontrado = False
         for livro in livros:
-            if livro['título'].lower () == titulo.lower():
+            if titulo.lower() in livro['título'].lower():
                 encontrado = True
                 print(f"\nLivro encontrado: {livro['título']}")
                 print(f"Status atual: {livro['status']}")
@@ -113,12 +138,14 @@ def devolucao():
                             continue
                         if opcao == "1":
                             livro['status'] = "disponível"
+                            salvar_em_arquivo()
                             print(f"\nTítulo {livro['título']}\nDevolução realizada com sucesso!\n")
                         elif opcao == "2":
                             print("Devolução cancelada!")
                         break
                 else:
                     print("Este livro já está disponível na biblioteca!")
+                break
         if not encontrado:
             print("Livro não encontrado. Tente novamente!")
 
