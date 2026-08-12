@@ -44,40 +44,40 @@ def deseja_continuar():
 def cadastro():#Função cadastro
     print("\nFAÇA O CADASTRO AQUI!\n")
     while True:
-        titulo = input("Título do livro: ").strip() #serve para limpar os spaços nas extremidades
-        if titulo:
+        titulo = input("Título do livro: ").strip() # o strip serve para limpar os espaços nas extremidades
+        if titulo: #Se o campo do título não estiver vazio, ele aceita
             break
-        print("Erro! O título não pode estar com o campo vazio. Tente novamente!")
+        print("Erro! O título não pode estar com o campo vazio. Tente novamente!") #Printa como erro
     while True:
-        autor = input ("Autor: ").strip()
-        if autor:
+        autor = input ("Autor: ").strip()  
+        if autor: #Se o campo do autor não estiver vazio, ele aceita
             break
-        print("Erro! O nome do autor não pode estar com o campo vazio. Tente novamente!")
+        print("Erro! O nome do autor não pode estar com o campo vazio. Tente novamente!") #Printa como erro também
     while True:
         ano_str = input("Ano de publicação: ").strip()
-        if ano_str.isdigit():
-            ano = int(ano_str)
-            if ano <=2026:
-                break
+        if ano_str.isdigit(): 
+            ano = int(ano_str) # Uma nova variável ano vai ser igualada à modificação do ano em string (texto), pra um número int (inteiro)
+            if ano <=2026: 
+                break #Se o ano for menor do que 2026 (Ano atual), ele para, ou seja, aceita
             else:
-                print("Ano inválido. Tente novamente!")
-        else:
+                print("Ano inválido. Tente novamente!") #Senão, ele dá como inválido
+        else:  #Aqui é um else para caso a pessoa tente digitar letras ao invés de números
             print("Erro! O ano deve conter apenas números! tente novamente")
     while True:
-        isbn = input("Código ISBN: ").strip()
-        if isbn.isdigit() and len(isbn) == 13:
+        isbn = input("Código ISBN: ").strip() #Aqui, eu igualei a variável do isbn ao que o usuário vai digitar
+        if isbn.isdigit() and len(isbn) == 13: #O programa verifica se todos os caracteres presentes são númericos e lê um len, que indica o tamanho que deve conter
             break
         print("Erro! O ISBN deve conter 13 dígitos (apenas números)!")
 
-    livro = { #Dicionário
+    livro = { #Dicionário de cada livro da lista de livros
         "título": titulo,
         "autor": autor,
         "ano": ano,
         "isbn": isbn,
         "status": "disponível"
     }
-    livros.append(livro) #o append coloca esse dicionário na lista, e conforme novos livros vão sendo cadastrados, a lista vai crescendo
-    salvar_em_arquivo()
+    livros.append(livro) #O append coloca esse dicionário na lista, e conforme novos livros vão sendo cadastrados, a lista vai crescendo
+    salvar_em_arquivo() #Ele salva os novos cadastros de livros na lista do csv
     print("\nSalvamos o seu cadastro em nosso sistema!")
 
 def emprestimo():
@@ -242,7 +242,7 @@ def menu_principal(): #menu principal
             print("\nCarregando a função de ordenar listagem de livros...\n")
         elif op == "0":
             print("\nEncerrando Sistema...\n")
-            break
+            break #Do 1 ao 0 são todas as opções disponíveis
         else:
             print("\nOpção inválida. Tente novamente!\n")
 menu_principal() 
