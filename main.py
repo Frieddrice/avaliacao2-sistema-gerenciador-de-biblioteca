@@ -42,7 +42,7 @@ def deseja_continuar():
 
 
 def cadastro():#Função cadastro
-    print("FAÇA O CADASTRO AQUI!")
+    print("\nFAÇA O CADASTRO AQUI!\n")
     titulo = str(input("Título do livro: "))
     autor = str(input ("Autor: "))
     ano = int(input("Ano de publicação: "))
@@ -63,7 +63,7 @@ def cadastro():#Função cadastro
 
 def emprestimo():
     while True:
-        print("\nREGISTRE O SEU EMPRÉSTIMO AQUI!")
+        print("\nREGISTRE O SEU EMPRÉSTIMO AQUI!\n")
         print("Visualizar status dos livros:")
         titulo = input("Digite aqui o nome do livro que deseja encontrar: ")
         encontrado = False
@@ -133,23 +133,54 @@ def listar_livros():
     for livro in livros:
         print(f"Título: {livro['título']}\nStatus atual: {livro['status']}\n\n")
 
-def buscar_livros():
-    print("PESQUISE POR SEUS LIVROS FAVORITOS AQUI!")
-    nome_l =input("Por qual livro você está procurando? ").strip().lower()
-    encontrado = False
+def buscar_livros():#função que encontra os livros
+    print("\nPESQUISE POR SEUS LIVROS FAVORITOS AQUI!\n")
+    nome_l =input("Por qual livro/autor você está procurando? ").strip().lower() #pergunta por qual livro o usuário está procurando
+    encontrado = False #inicialmente dado como "falso" pois será encontrado
     for livro in livros:
-        if nome_l in livro['título'].lower() or nome_l in livro['autor'].lower():
-            encontrado = True
-            print("\nLivro encontrado!")
+        if nome_l in livro['título'].lower() or nome_l in livro['autor'].lower():#se o título do livro/autor digitado pela pessoa corresponder a algum que está salvo na tabela
+            encontrado = True 
+            print("\nLivro encontrado!") #ele será encontrado
             print("--------------------")
             print(f"Título: {livro['título']}")
             print(f"Autor: {livro['autor']}")
             print(f"Ano: {livro['ano']}")
-            print(f"Status: {livro['status']}")
+            print(f"Status: {livro['status']}") #informações sobre o livro desejado
             print("-----------------------------------------")
-        if not encontrado:
-            print("Nenhum livro encontrado! Tente novamente!")
-            if deseja_continuar() == True:
+    if not encontrado:
+        print("Nenhum livro encontrado! Tente novamente!") #caso não corresponder, o programa retorna como falso
+        if deseja_continuar() == True: #função criada para dar continuidade ou não às atividades no sistema
+            return
+
+def ordenar_a_listagem():
+    while True:
+        print("FILTRE OS LIVROS POR:")
+        print("1. título\n2. Autor\n3. Ano")
+        escolha = input ("Digite aqui por qual opção você deseja filtrar: ")
+        if escolha == "1":
+            def por_titulo(livro):
+                return livro['título'].lower()
+            livros.sort(key = por_titulo)
+            print("\nLivros ordenados por título:\n")
+        elif escolha == "2":
+            def por_autor(livro):
+                return livro['autor'].lower()
+            livros.sort(key = por_autor)
+            print("\nLivros ordenados por Autor:\n")
+        elif escolha == "3":
+            def por_ano(livro):
+                return livro['ano']
+            livros.sort(key = por_ano)
+            print("\nLivros ordenados por Ano:\n")
+        elif escolha == "0":
+            print("Opção inválida!")
+            break
+        else: 
+            print("\nOpção inválida!\n")
+            continue
+        for livro in livros:
+            print(f"\n\nTítulo: {livro['título']}\nAutor: {livro['autor']}\nAno: {livro['ano']}")
+        if deseja_continuar() == True:
                 break
 
 def menu_principal(): #menu principal
@@ -180,6 +211,7 @@ def menu_principal(): #menu principal
             print("\nCarregando a função de busca....")
             buscar_livros()
         elif op == "6":
+            ordenar_a_listagem()
             print("\nCarregando a função de ordenar listagem de livros...\n")
         elif op == "0":
             print("\nEncerrando Sistema...\n")
