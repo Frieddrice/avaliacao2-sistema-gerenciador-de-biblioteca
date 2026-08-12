@@ -4,7 +4,25 @@ d.cabecalho() #Cabeçalho e sistema de limpeza do programa
 import sys
 import csv
 
-livros = []
+livros = [] #Lista vazia
+
+def carregar_do_arquivo(): #traz do csv para o programa
+    try: #peço para o phyton abrir o arquivo para ler
+        with open ("livros.csv", mode="r", encoding="utf-8") as arquivo:
+            leitor = csv.DictReader(arquivo)
+            for linha in leitor:
+                linha["ano"] = int(linha["ano"])
+                livros.append(linha) #vai adicionando as coisas na lista conforme vai passando por elas
+    except FileNotFoundError: 
+        pass #se nenhum arquivo existir, ele apenas irá continuar
+
+def salvar_em_arquivo():# manda de volta para o csv
+    with open("livros.csv", mode="w", newline="",encoding="utf-8") as arquivo:
+        colunas = ["título", "autor", "ano", "isbn", "status"]
+        escritor = csv.DictWriter(arquivo, fieldnames = colunas)
+        escritor.writeheader() #escreve as colunas na primeira linha
+        for livro in livros:
+            escritor.writerow(livro) #aqui, ele escreve uma linha para cada livro na lista livros, na forma do csv
 
 def deseja_continuar():
     while True:
@@ -32,15 +50,16 @@ def cadastro():#Função cadastro
     status = "disponível"
     print(status)
 
-    livro = {
+    livro = { #Dicionário
         "título": titulo,
         "autor": autor,
         "ano": ano,
         "isbn": isbn,
         "status": "disponível"
     }
-
-    livros.append (livro) #o append coloca esse dicionário na lista, e conforme novos livros vão sendo cadastrados, a lista vai crescendo
+    livros.append(livro) #o append coloca esse dicionário na lista, e conforme novos livros vão sendo cadastrados, a lista vai crescendo
+    salvar_em_arquivo()
+    print("\nSalvamos o seu cadastro em nosso sistema!")
 
 def emprestimo():
     while True:
@@ -106,7 +125,35 @@ def devolucao():
         if deseja_continuar() == True:
             break
 
+def listar_livros():
+    print("\nLISTA DE TODOS OS LIVROS:\n")
+    if not livros:
+        print("Nenhum livro foi cadastrado na biblioteca ainda!\n")
+        return
+    for livro in livros:
+        print(f"Título: {livro['título']}\nStatus atual: {livro['status']}\n\n")
+
+def buscar_livros():
+    print("PESQUISE POR SEUS LIVROS FAVORITOS AQUI!")
+    nome_l =input("Por qual livro você está procurando? ").strip().lower()
+    encontrado = False
+    for livro in livros:
+        if nome_l in livro['título'].lower() or nome_l in livro['autor'].lower():
+            encontrado = True
+            print("\nLivro encontrado!")
+            print("--------------------")
+            print(f"Título: {livro['título']}")
+            print(f"Autor: {livro['autor']}")
+            print(f"Ano: {livro['ano']}")
+            print(f"Status: {livro['status']}")
+            print("-----------------------------------------")
+        if not encontrado:
+            print("Nenhum livro encontrado! Tente novamente!")
+            if deseja_continuar() == True:
+                break
+
 def menu_principal(): #menu principal
+    carregar_do_arquivo()
     while True: #sistema de loop
         print ("\n------------------------\nSISTEMA DE GERENCIAMENTO DE BIBLIOTECA\n---------------------------------------")
         print("1. Cadastrar livros")
@@ -127,15 +174,16 @@ def menu_principal(): #menu principal
             print("\nCarregando a função de devolução...\n")
             devolucao()
         elif op == "4":
-            print("Carregando a listagem de todos os livros...\n")
+            listar_livros()
+            print("\nCarregando a listagem de todos os livros...\n")
         elif op == "5":
-            print("Carregando a função de busca....")
+            print("\nCarregando a função de busca....")
+            buscar_livros()
         elif op == "6":
-            print("Carregando a função de ordenar listagem de livros...\n")
+            print("\nCarregando a função de ordenar listagem de livros...\n")
         elif op == "0":
-            print("Encerrando Sistema...\n")
+            print("\nEncerrando Sistema...\n")
             break
         else:
             print("\nOpção inválida. Tente novamente!\n")
 menu_principal() 
-
