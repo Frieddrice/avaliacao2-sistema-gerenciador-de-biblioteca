@@ -38,4 +38,4 @@ Desenvolvido em Python, esse sistema controla por completo um acervo bibliotecá
  - Conhecimento prévio/intermediário sobre a linguagem Python
  - Familiaridade com o GitHub
  - Manipulação de arquivos (ex: csv)
- - Interpretação e uso correto do terminals
+ - Interpretação e uso correto do terminal
