@@ -35,6 +35,16 @@ Desenvolvido em Python, esse sistema controla por completo um acervo bibliotecá
   - Fechar o Sistema: Encerra as atividades do programa.
 
 # Observações importantes sobre requisitos técnicos:
+• O que foi utilizado no programa: 
+ - Repetições e Escolhas (while, if, else): O programa usa laços de repetição para deixar o menu principal sempre aberto na tela e blocos de decisão para verificar se o que você digitou está certo.
+
+ - Funções (def): O código é dividido em pequenas partes separadas reutilizáveis, onde cada uma faz uma tarefa específica, como cadastrar, pesquisar, fazer empréstimos ou salvar, e podem ser chamadas sempre que necessário.
+
+ - Manipulação de Arquivos e Persistência: Utilização da biblioteca padrão csv do Python (DictReader e DictWriter) para carregar e salvar automaticamente os dados no arquivo livros.csv, garantindo que nada se perca ao fechar o programa.
+
+ - Manipulação de Coleções: Uso de listas e dicionários para gerenciar os dados dos livros diretamente na memória RAM durante a execução.
+
+• Pontos interessantes para uma melhor experiência:
  - Conhecimento prévio/intermediário sobre a linguagem Python
  - Familiaridade com o GitHub
  - Manipulação de arquivos (ex: csv)
